@@ -20,7 +20,7 @@ class MultiUserFlowTest < ActionDispatch::IntegrationTest
     assert_select ".submission-counter-badge", text: /0\/3/
 
     # 3. Submit 3 words
-    ["Innovation", "Agility", "Design"].each_with_index do |word, idx|
+    [ "Innovation", "Agility", "Design" ].each_with_index do |word, idx|
       post lobby_submissions_url(lobby), params: { word: word }
       assert_redirected_to lobby_url(lobby)
       follow_redirect!
@@ -33,7 +33,7 @@ class MultiUserFlowTest < ActionDispatch::IntegrationTest
     end
     assert_redirected_to lobby_url(lobby)
     follow_redirect!
-    assert_select ".flash-alert", text: /Limit erreicht/
+    assert_select ".flash-alert", text: /Limit reached/
 
     # 5. Profile password update
     get profile_url
@@ -42,7 +42,7 @@ class MultiUserFlowTest < ActionDispatch::IntegrationTest
     patch profile_url, params: { user: { password: "newpassword789", password_confirmation: "newpassword789" } }
     assert_redirected_to profile_url
     follow_redirect!
-    assert_select ".flash-notice", text: /Passwort erfolgreich aktualisiert/
+    assert_select ".flash-notice", text: /Password successfully updated/
 
     # 6. Logout
     delete logout_url
@@ -86,9 +86,9 @@ class MultiUserFlowTest < ActionDispatch::IntegrationTest
     assert_equal admin.id, lobby.locked_by_id
 
     # Update question and verify lock is cleared
-    patch lobby_url(lobby), params: { lobby: { title: "Neue Live-Frage!" } }
+    patch lobby_url(lobby), params: { lobby: { title: "New Live Question!" } }
     assert_redirected_to lobby_url(lobby)
-    assert_equal "Neue Live-Frage!", lobby.reload.title
+    assert_equal "New Live Question!", lobby.reload.title
     assert_not lobby.locked?
     assert_nil lobby.locked_by_id
   end

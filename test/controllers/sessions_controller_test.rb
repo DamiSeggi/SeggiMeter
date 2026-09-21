@@ -26,7 +26,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
     assert_nil session[:user_id]
-    assert_match "Ungültiges Passwort", flash[:alert]
+    assert_match "Invalid password", flash[:alert]
   end
 
   test "non-existing user is auto-registered on login" do

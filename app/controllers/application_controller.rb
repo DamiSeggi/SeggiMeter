@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless logged_in?
-      flash[:alert] = "Bitte melde dich zuerst an."
+      flash[:alert] = "Please log in first."
       redirect_to login_path
     end
   end
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     return if performed?
 
     unless admin?
-      flash[:alert] = "Zugriff verweigert. Nur Administratoren haben Zugriff auf diesen Bereich."
+      flash[:alert] = "Access denied. Only administrators have access to this area."
       redirect_to lobbies_path
     end
   end

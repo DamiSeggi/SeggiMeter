@@ -2,7 +2,7 @@
   <div class="lobby-title-container">
     <h1 class="live-title" id="lobby_title_display"><%= lobby.title %></h1>
     <% if current_user&.admin? %>
-      <%= button_to lock_lobby_path(lobby), method: :post, class: "edit-pencil-btn", title: "Frage bearbeiten (DB-Locking)" do %>
+      <%= button_to lock_lobby_path(lobby), method: :post, class: "edit-pencil-btn", title: "Edit question (DB Locking)" do %>
         <%= icon(:pencil, size: 15) %>
       <% end %>
     <% end %>
@@ -10,7 +10,7 @@
 
   <% if local_assigns[:locked_by_other] || (lobby.locked? && !lobby.locked_by?(current_user)) %>
     <div class="lock-warning">
-      <%= icon(:lock, size: 14) %> <em>Diese Frage wird gerade von Admin <%= lobby.locked_by&.name %> bearbeitet.</em>
+      <%= icon(:lock, size: 14) %> <em>This question is currently being edited by admin <%= lobby.locked_by&.name %>.</em>
     </div>
   <% end %>
 </div>

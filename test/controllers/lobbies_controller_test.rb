@@ -30,7 +30,7 @@ class LobbiesControllerTest < ActionDispatch::IntegrationTest
 
     get new_lobby_url
     assert_redirected_to lobbies_url
-    assert_match "Zugriff verweigert", flash[:alert]
+    assert_match "Access denied", flash[:alert]
 
     assert_no_difference "Lobby.count" do
       post lobbies_url, params: { lobby: { title: "Hacker question?" } }
@@ -47,7 +47,7 @@ class LobbiesControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference "Lobby.count", 1 do
       assert_difference "ActivityLog.count", 1 do
-        post lobbies_url, params: { lobby: { title: "Wie gefällt euch Rails 8?" } }
+        post lobbies_url, params: { lobby: { title: "How do you like Rails 8?" } }
       end
     end
 
@@ -62,9 +62,9 @@ class LobbiesControllerTest < ActionDispatch::IntegrationTest
     lobby = lobbies(:active_lobby)
     log_in_as(admin, password: "admin123")
 
-    patch lobby_url(lobby), params: { lobby: { title: "Aktualisierte Frage?" } }
+    patch lobby_url(lobby), params: { lobby: { title: "Updated Question?" } }
     assert_redirected_to lobby_url(lobby)
-    assert_equal "Aktualisierte Frage?", lobby.reload.title
+    assert_equal "Updated Question?", lobby.reload.title
     assert_nil lobby.locked_by
   end
 

@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     password = params[:password]
 
     if name.blank? || password.blank?
-      flash.now[:alert] = "Bitte Benutzername und Passwort eingeben."
+      flash.now[:alert] = "Please enter your username and password."
       render :new, status: :unprocessable_entity
       return
     end
@@ -19,9 +19,9 @@ class SessionsController < ApplicationController
       if user.authenticate(password)
         session[:user_id] = user.id
         ActivityLog.create!(user: user, action: "user_logged_in")
-        redirect_to lobbies_path, notice: "Willkommen zurück, #{user.name}!"
+        redirect_to lobbies_path, notice: "Welcome back, #{user.name}!"
       else
-        flash.now[:alert] = "Ungültiges Passwort für diesen Benutzer."
+        flash.now[:alert] = "Invalid password for this user."
         render :new, status: :unprocessable_entity
       end
     else
@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
       if user.save
         session[:user_id] = user.id
         ActivityLog.create!(user: user, action: "user_registered")
-        redirect_to lobbies_path, notice: "Account erfolgreich erstellt! Willkommen, #{user.name}."
+        redirect_to lobbies_path, notice: "Account successfully created! Welcome, #{user.name}."
       else
         flash.now[:alert] = user.errors.full_messages.to_sentence
         render :new, status: :unprocessable_entity
@@ -40,6 +40,6 @@ class SessionsController < ApplicationController
   def destroy
     ActivityLog.create!(user: current_user, action: "user_logged_out") if logged_in?
     session[:user_id] = nil
-    redirect_to login_path, notice: "Erfolgreich abgemeldet."
+    redirect_to login_path, notice: "Successfully logged out."
   end
 end

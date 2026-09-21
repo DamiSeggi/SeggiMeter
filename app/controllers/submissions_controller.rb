@@ -6,7 +6,7 @@ class SubmissionsController < ApplicationController
     word = params[:word].to_s.strip
 
     if word.blank?
-      error_message = "Bitte ein Wort eingeben."
+      error_message = "Please enter a word."
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
@@ -23,7 +23,7 @@ class SubmissionsController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         if current_user.submissions.where(lobby_id: @lobby.id).count >= 3
-          raise "Limit erreicht"
+          raise "Limit reached"
         end
 
         @submission = @lobby.submissions.create!(user: current_user, word: word)
@@ -35,10 +35,10 @@ class SubmissionsController < ApplicationController
           render turbo_stream: turbo_stream.replace(
             "submission_area",
             partial: "lobbies/submission_form",
-            locals: { lobby: @lobby, notice: "Wort '#{word}' erfolgreich hinzugefügt!" }
+            locals: { lobby: @lobby, notice: "Word '#{word}' successfully submitted!" }
           )
         end
-        format.html { redirect_to @lobby, notice: "Wort '#{word}' erfolgreich hinzugefügt!" }
+        format.html { redirect_to @lobby, notice: "Word '#{word}' successfully submitted!" }
       end
     rescue RuntimeError => e
       respond_to do |format|
@@ -46,10 +46,10 @@ class SubmissionsController < ApplicationController
           render turbo_stream: turbo_stream.replace(
             "submission_area",
             partial: "lobbies/submission_form",
-            locals: { lobby: @lobby, alert: "Limit erreicht: Maximal 3 Wörter pro Frage." }
+            locals: { lobby: @lobby, alert: "Limit reached: Maximum 3 words per question." }
           ), status: :unprocessable_entity
         end
-        format.html { redirect_to @lobby, alert: "Limit erreicht: Maximal 3 Wörter pro Frage." }
+        format.html { redirect_to @lobby, alert: "Limit reached: Maximum 3 words per question." }
       end
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|

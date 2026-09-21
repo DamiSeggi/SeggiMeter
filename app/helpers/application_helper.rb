@@ -17,7 +17,7 @@ module ApplicationHelper
     svg_paths = ICONS[name.to_sym]
     return "".html_safe unless svg_paths
 
-    classes = ["lucide-icon", "icon-#{name}", class_name].reject(&:blank?).join(" ")
+    classes = [ "lucide-icon", "icon-#{name}", class_name ].reject(&:blank?).join(" ")
 
     raw(%(<svg xmlns="http://www.w3.org/2000/svg" width="#{size}" height="#{size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="#{stroke_width}" stroke-linecap="round" stroke-linejoin="round" class="#{classes}" aria-hidden="true">#{svg_paths}</svg>))
   end

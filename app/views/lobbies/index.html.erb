@@ -6,15 +6,15 @@
 
     <div class="nav-user-actions">
       <span class="logged-in-user">
-        Angemeldet als: <strong><%= current_user.name %></strong><%= " (Admin)" if current_user.admin? %>
+        Logged in as: <strong><%= current_user.name %></strong><%= " (Admin)" if current_user.admin? %>
       </span>
       <% if current_user.admin? %>
-        <%= link_to admin_users_path, class: "icon-btn admin-icon-btn", title: "Benutzerverwaltung" do %>
+        <%= link_to admin_users_path, class: "icon-btn admin-icon-btn", title: "User Management" do %>
           <%= icon(:shield, size: 15) %> Admin
         <% end %>
       <% end %>
-      <%= link_to profile_path, class: "icon-btn profile-icon-btn", title: "Benutzerprofil" do %>
-        <%= icon(:user, size: 15) %> Profil
+      <%= link_to profile_path, class: "icon-btn profile-icon-btn", title: "User Profile" do %>
+        <%= icon(:user, size: 15) %> Profile
       <% end %>
       <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-outline-danger" %>
     </div>
@@ -22,14 +22,14 @@
 
   <main class="main-content">
     <div class="content-header">
-      <h2 class="section-title">Aktive Fragen &amp; Lobbies</h2>
+      <h2 class="section-title">Active Questions &amp; Lobbies</h2>
     </div>
 
     <% if @lobbies.empty? %>
       <div class="empty-state">
-        <p>Noch keine Fragen vorhanden.</p>
+        <p>No questions available yet.</p>
         <% if current_user.admin? %>
-          <p>Klicke unten rechts auf das <strong>+</strong>, um eine neue Frage zu erstellen.</p>
+          <p>Click the <strong>+</strong> in the bottom right corner to create a new question.</p>
         <% end %>
       </div>
     <% else %>
@@ -40,7 +40,7 @@
               <h4 class="lobby-title"><%= lobby.title %></h4>
               <div class="lobby-meta">
                 <span class="meta-item"><%= icon(:author, size: 14) %> <%= lobby.user.name %></span>
-                <span class="meta-item"><%= icon(:message, size: 14) %> <%= lobby.submissions.count %> Wörter</span>
+                <span class="meta-item"><%= icon(:message, size: 14) %> <%= lobby.submissions.count %> <%= lobby.submissions.count == 1 ? "word" : "words" %></span>
               </div>
             </div>
             <div class="lobby-card-footer">

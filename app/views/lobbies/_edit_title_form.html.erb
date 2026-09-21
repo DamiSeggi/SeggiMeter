@@ -3,8 +3,8 @@
     <%= form_with model: lobby, url: lobby_path(lobby), method: :patch, class: "edit-title-form" do |f| %>
       <div class="edit-title-input-group">
         <%= f.text_field :title, value: lobby.title, class: "form-control edit-title-input", autofocus: true, required: true %>
-        <%= f.submit "Speichern", class: "btn btn-primary btn-edit-action" %>
-        <%= link_to "Abbrechen", unlock_lobby_path(lobby), data: { turbo_method: :post }, class: "btn btn-secondary btn-edit-action" %>
+        <%= f.submit "Save", class: "btn btn-primary btn-edit-action" %>
+        <%= link_to "Cancel", unlock_lobby_path(lobby), data: { turbo_method: :post }, class: "btn btn-secondary btn-edit-action" %>
       </div>
     <% end %>
   </div>

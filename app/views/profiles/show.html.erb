@@ -2,17 +2,17 @@
   <div class="card profile-card">
     <div class="card-header">
       <div class="header-with-back">
-        <%= link_to "←", lobbies_path, class: "btn-back", title: "Zurück" %>
-        <h2>Benutzerprofil</h2>
+        <%= link_to "←", lobbies_path, class: "btn-back", title: "Back" %>
+        <h2>User Profile</h2>
       </div>
     </div>
 
     <div class="card-body">
       <div class="profile-info-block">
-        <label class="profile-label">Benutzername</label>
+        <label class="profile-label">Username</label>
         <div class="profile-value"><%= @user.name %></div>
         <div class="profile-role-badge">
-          Rolle: <strong><%= @user.admin? ? "Administrator" : "Standard-Benutzer" %></strong>
+          Role: <strong><%= @user.admin? ? "Administrator" : "Standard User" %></strong>
         </div>
       </div>
 
@@ -20,17 +20,17 @@
 
       <%= form_with model: @user, url: profile_path, method: :patch, local: true do |f| %>
         <div class="form-group">
-          <%= f.label :password, "Neues Passwort", class: "form-label" %>
-          <%= f.password_field :password, class: "form-control", placeholder: "Neues Passwort", required: true %>
+          <%= f.label :password, "New Password", class: "form-label" %>
+          <%= f.password_field :password, class: "form-control", placeholder: "New password", required: true %>
         </div>
 
         <div class="form-group">
-          <%= f.label :password_confirmation, "Passwort bestätigen", class: "form-label" %>
-          <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Passwort wiederholen", required: true %>
+          <%= f.label :password_confirmation, "Confirm Password", class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Repeat password", required: true %>
         </div>
 
         <div class="form-actions">
-          <%= f.submit "Speichern", class: "btn btn-primary" %>
+          <%= f.submit "Save", class: "btn btn-primary" %>
         </div>
       <% end %>
     </div>

@@ -27,7 +27,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to profile_url
-    assert_equal "Passwort erfolgreich aktualisiert.", flash[:notice]
+    assert_equal "Password successfully updated.", flash[:notice]
     assert_equal "password_changed", ActivityLog.last.action
 
     # Verify new password works

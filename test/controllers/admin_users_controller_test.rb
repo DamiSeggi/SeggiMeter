@@ -11,7 +11,7 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
     get admin_users_url
 
     assert_redirected_to lobbies_url
-    assert_match "Zugriff verweigert", flash[:alert]
+    assert_match "Access denied", flash[:alert]
   end
 
   test "admin can view admin users page" do
@@ -20,7 +20,7 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
 
     get admin_users_url
     assert_response :success
-    assert_select "h1", text: /Benutzerverwaltung/
+    assert_select "h1", text: /User Management/
     assert_select "table.admin-users-table"
   end
 
@@ -54,7 +54,7 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
 
     patch toggle_admin_admin_user_url(admin)
     assert_redirected_to admin_users_url
-    assert_match "nicht selbst entziehen", flash[:alert]
+    assert_match "revoke your own admin rights", flash[:alert]
     assert admin.reload.admin?
   end
 
@@ -83,6 +83,6 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to admin_users_url
-    assert_match "eigenen Account nicht löschen", flash[:alert]
+    assert_match "delete your own account", flash[:alert]
   end
 end

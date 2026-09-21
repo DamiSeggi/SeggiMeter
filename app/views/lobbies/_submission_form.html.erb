@@ -18,7 +18,7 @@
     <div class="input-with-counter">
       <%= f.text_field :word,
           class: "form-control word-input",
-          placeholder: can_submit ? "Wort eingeben …" : "Limit erreicht (3/3)",
+          placeholder: can_submit ? "Enter a word…" : "Limit reached (3/3)",
           disabled: !can_submit,
           required: can_submit,
           autofocus: can_submit,
@@ -27,7 +27,7 @@
 
       <%= f.submit "Enter", class: "btn btn-primary btn-submit-word", disabled: !can_submit %>
 
-      <div class="submission-counter-badge <%= 'counter-limit' if !can_submit %>" title="Eingereichte Wörter für diese Frage">
+      <div class="submission-counter-badge <%= 'counter-limit' if !can_submit %>" title="Submitted words for this question">
         <%= user_count %>/3
       </div>
     </div>
@@ -35,7 +35,7 @@
 
   <% unless can_submit %>
     <div class="limit-note">
-      Du hast bereits alle 3 Wörter für diese Frage abgegeben.
+      You have already submitted all 3 words for this question.
     </div>
   <% end %>
 </div>

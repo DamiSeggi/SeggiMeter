@@ -3,8 +3,8 @@
   <%# ─── Header ─────────────────────────────────────────────── %>
   <div class="admin-header">
     <div class="header-with-back">
-      <%= link_to "←", lobbies_path, class: "btn-back", title: "Zurück" %>
-      <h1 class="admin-title">Benutzerverwaltung</h1>
+      <%= link_to "←", lobbies_path, class: "btn-back", title: "Back" %>
+      <h1 class="admin-title">User Management</h1>
     </div>
   </div>
 
@@ -12,8 +12,8 @@
   <div class="card admin-card mb-4">
     <div class="card-header admin-card-header">
       <div class="admin-section-header">
-        <h2 class="admin-section-title">Benutzer</h2>
-        <span class="admin-section-badge"><%= @users.count %> Benutzer</span>
+        <h2 class="admin-section-title">Users</h2>
+        <span class="admin-section-badge"><%= @users.count %> <%= @users.count == 1 ? "User" : "Users" %></span>
       </div>
     </div>
     <div class="card-body p-0">
@@ -22,12 +22,12 @@
           <thead>
             <tr>
               <th class="text-center" style="width: 70px;">ID</th>
-              <th>Benutzername</th>
-              <th class="text-center" style="width: 120px;">Rolle</th>
-              <th class="text-center" style="width: 170px;">Erstellt am</th>
+              <th>Username</th>
+              <th class="text-center" style="width: 120px;">Role</th>
+              <th class="text-center" style="width: 170px;">Created at</th>
               <th class="text-center" style="width: 120px;">Submissions</th>
-              <th class="text-center" style="width: 180px;">Rollenverwaltung</th>
-              <th class="text-center" style="width: 110px;">Aktionen</th>
+              <th class="text-center" style="width: 180px;">Role Management</th>
+              <th class="text-center" style="width: 110px;">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +38,7 @@
                   <div class="user-cell">
                     <strong><%= user.name %></strong>
                     <% if user == current_user %>
-                      <span class="badge badge-info">Du</span>
+                      <span class="badge badge-info">You</span>
                     <% end %>
                   </div>
                 </td>
@@ -46,25 +46,25 @@
                   <% if user.admin? %>
                     <span class="badge badge-admin">Admin</span>
                   <% else %>
-                    <span class="badge badge-user">Benutzer</span>
+                    <span class="badge badge-user">User</span>
                   <% end %>
                 </td>
-                <td class="td-dim text-center"><%= user.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+                <td class="td-dim text-center"><%= user.created_at.strftime("%b %d, %Y %H:%M") %></td>
                 <td class="td-dim text-center"><%= user.submissions.count %></td>
                 <td class="text-center">
                   <% if user == current_user %>
                     <span class="text-muted text-sm">-</span>
                   <% elsif user.admin? %>
-                    <%= button_to "Admin entfernen", toggle_admin_admin_user_path(user), method: :patch, class: "btn btn-outline-secondary btn-sm", data: { turbo_confirm: "Admin-Rechte für #{user.name} wirklich entfernen?" } %>
+                    <%= button_to "Remove Admin", toggle_admin_admin_user_path(user), method: :patch, class: "btn btn-outline-secondary btn-sm", data: { turbo_confirm: "Are you sure you want to remove admin rights for #{user.name}?" } %>
                   <% else %>
-                    <%= button_to "Admin hinzufügen", toggle_admin_admin_user_path(user), method: :patch, class: "btn btn-secondary btn-sm" %>
+                    <%= button_to "Add Admin", toggle_admin_admin_user_path(user), method: :patch, class: "btn btn-secondary btn-sm" %>
                   <% end %>
                 </td>
                 <td class="text-center">
                   <% if user == current_user %>
                     <span class="text-muted text-sm">-</span>
                   <% else %>
-                    <%= button_to "Löschen", admin_user_path(user), method: :delete, class: "btn btn-outline-danger btn-sm", data: { turbo_confirm: "Benutzer '#{user.name}' und alle zugehörigen Daten wirklich löschen?" } %>
+                    <%= button_to "Delete", admin_user_path(user), method: :delete, class: "btn btn-outline-danger btn-sm", data: { turbo_confirm: "Are you sure you want to delete user '#{user.name}' and all associated data?" } %>
                   <% end %>
                 </td>
               </tr>
@@ -79,8 +79,8 @@
   <div class="card admin-card">
     <div class="card-header admin-card-header">
       <div class="admin-section-header">
-        <h2 class="admin-section-title">Aktivitätsprotokoll</h2>
-        <span class="admin-section-badge">letzte 20</span>
+        <h2 class="admin-section-title">Activity Log</h2>
+        <span class="admin-section-badge">last 20</span>
       </div>
     </div>
     <div class="card-body p-0">
@@ -88,16 +88,16 @@
         <table class="table activity-log-table">
           <thead>
             <tr>
-              <th style="width: 200px;">Zeitpunkt</th>
-              <th style="width: 200px;">Benutzer</th>
-              <th>Aktion</th>
+              <th style="width: 200px;">Timestamp</th>
+              <th style="width: 200px;">User</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <% ActivityLog.recent.limit(20).each do |log| %>
               <tr>
-                <td class="td-dim"><%= log.created_at.strftime("%d.%m.%Y %H:%M:%S") %></td>
-                <td><strong><%= log.user&.name || "Gelöschter Benutzer" %></strong></td>
+                <td class="td-dim"><%= log.created_at.strftime("%b %d, %Y %H:%M:%S") %></td>
+                <td><strong><%= log.user&.name || "Deleted User" %></strong></td>
                 <td><code class="log-action"><%= log.action %></code></td>
               </tr>
             <% end %>

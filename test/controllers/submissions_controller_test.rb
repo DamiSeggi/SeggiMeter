@@ -47,7 +47,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to lobby_url(lobby)
-    assert_match "Limit erreicht", flash[:alert]
+    assert_match "Limit reached", flash[:alert]
   end
 
   test "submitting blank word is rejected" do
@@ -60,6 +60,6 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to lobby_url(lobby)
-    assert_match "Bitte ein Wort eingeben", flash[:alert]
+    assert_match "Please enter a word", flash[:alert]
   end
 end

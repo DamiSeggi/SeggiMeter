@@ -41,7 +41,7 @@ class Lobby < ApplicationRecord
       display_names[key] ||= w
     end
 
-    counts.map { |key, count| [display_names[key], count] }.to_h
+    counts.map { |key, count| [ display_names[key], count ] }.to_h
   end
 
   private

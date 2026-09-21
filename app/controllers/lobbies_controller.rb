@@ -1,7 +1,7 @@
 class LobbiesController < ApplicationController
   before_action :require_login
-  before_action :require_admin, only: [:new, :create, :edit, :update, :destroy, :lock, :unlock]
-  before_action :set_lobby, only: [:show, :edit, :update, :destroy, :lock, :unlock]
+  before_action :require_admin, only: [ :new, :create, :edit, :update, :destroy, :lock, :unlock ]
+  before_action :set_lobby, only: [ :show, :edit, :update, :destroy, :lock, :unlock ]
 
   def index
     @lobbies = Lobby.includes(:user, :submissions).order(created_at: :desc)
@@ -22,7 +22,7 @@ class LobbiesController < ApplicationController
 
     if @lobby.save
       ActivityLog.create!(user: current_user, action: "lobby_created")
-      redirect_to @lobby, notice: "Frage erfolgreich erstellt."
+      redirect_to @lobby, notice: "Question successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -30,7 +30,7 @@ class LobbiesController < ApplicationController
 
   def edit
     if @lobby.locked? && !@lobby.locked_by?(current_user)
-      redirect_to @lobby, alert: "Frage wird gerade von #{@lobby.locked_by.name} bearbeitet."
+      redirect_to @lobby, alert: "Question is currently being edited by #{@lobby.locked_by.name}."
       return
     end
 
@@ -40,7 +40,7 @@ class LobbiesController < ApplicationController
   def update
     @lobby.with_lock do
       if @lobby.locked? && !@lobby.locked_by?(current_user)
-        redirect_to @lobby, alert: "Frage wird gerade von #{@lobby.locked_by.name} bearbeitet."
+        redirect_to @lobby, alert: "Question is currently being edited by #{@lobby.locked_by.name}."
         return
       end
 
@@ -48,7 +48,7 @@ class LobbiesController < ApplicationController
         ActivityLog.create!(user: current_user, action: "lobby_updated")
         respond_to do |format|
           format.turbo_stream { render turbo_stream: turbo_stream.replace("lobby_header", partial: "lobbies/title", locals: { lobby: @lobby }) }
-          format.html { redirect_to @lobby, notice: "Frage wurde erfolgreich aktualisiert." }
+          format.html { redirect_to @lobby, notice: "Question was successfully updated." }
         end
       else
         respond_to do |format|
@@ -63,7 +63,7 @@ class LobbiesController < ApplicationController
     if @lobby.locked? && !@lobby.locked_by?(current_user)
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.replace("lobby_header", partial: "lobbies/title", locals: { lobby: @lobby, locked_by_other: true }) }
-        format.html { redirect_to @lobby, alert: "Frage wird gerade von #{@lobby.locked_by.name} bearbeitet." }
+        format.html { redirect_to @lobby, alert: "Question is currently being edited by #{@lobby.locked_by.name}." }
       end
     else
       @lobby.lock_for!(current_user)
@@ -85,7 +85,7 @@ class LobbiesController < ApplicationController
   def destroy
     @lobby.destroy
     ActivityLog.create!(user: current_user, action: "lobby_deleted")
-    redirect_to lobbies_path, notice: "Frage wurde gelöscht."
+    redirect_to lobbies_path, notice: "Question was deleted."
   end
 
   private

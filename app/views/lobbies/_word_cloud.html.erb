@@ -3,8 +3,8 @@
   <% if frequencies.empty? %>
     <div class="word-cloud-empty">
       <span class="empty-icon"><%= icon(:cloud, size: 48, stroke_width: 1.5) %></span>
-      <p class="empty-title">Noch keine Wörter vorhanden.</p>
-      <p class="empty-desc">Sei der Erste - reiche bis zu 3 Wörter unten ein!</p>
+      <p class="empty-title">No words submitted yet.</p>
+      <p class="empty-desc">Be the first - submit up to 3 words below!</p>
     </div>
   <% else %>
     <%
@@ -55,7 +55,7 @@
         %>
         <span class="word-tag <%= 'dominant' if is_dominant %>"
               style="left: <%= pos_x %>%; top: <%= pos_y %>%; font-size: <%= font_size %>rem; color: <%= color %>; font-weight: <%= weight %>; transform: translate(-50%, -50%) rotate(<%= rot %>deg);"
-              title="<%= count %> <%= count == 1 ? 'Nennung' : 'Nennungen' %>">
+              title="<%= count %> <%= count == 1 ? 'submission' : 'submissions' %>">
           <span class="word-text"><%= word %></span><span class="word-badge"><%= count %></span>
         </span>
       <% end %>

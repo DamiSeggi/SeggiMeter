@@ -2,7 +2,7 @@ require "test_helper"
 
 class LobbyTest < ActiveSupport::TestCase
   test "valid lobby belongs to user" do
-    lobby = Lobby.new(title: "Neue Frage?", user: users(:admin_user))
+    lobby = Lobby.new(title: "New Question?", user: users(:admin_user))
     assert lobby.valid?
     assert_not lobby.locked?
   end
