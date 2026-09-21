@@ -8,6 +8,11 @@
       <span class="logged-in-user">
         Angemeldet als: <strong><%= current_user.name %></strong><%= " (Admin)" if current_user.admin? %>
       </span>
+      <% if current_user.admin? %>
+        <%= link_to admin_users_path, class: "icon-btn admin-icon-btn", title: "Benutzerverwaltung" do %>
+          <%= icon(:shield, size: 15) %> Admin
+        <% end %>
+      <% end %>
       <%= link_to profile_path, class: "icon-btn profile-icon-btn", title: "Benutzerprofil" do %>
         <%= icon(:user, size: 15) %> Profil
       <% end %>
