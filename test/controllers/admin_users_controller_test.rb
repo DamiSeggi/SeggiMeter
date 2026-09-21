@@ -20,7 +20,7 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
 
     get admin_users_url
     assert_response :success
-    assert_select "h2", text: /Admin-Benutzerverwaltung/
+    assert_select "h1", text: /Benutzerverwaltung/
     assert_select "table.admin-users-table"
   end
 

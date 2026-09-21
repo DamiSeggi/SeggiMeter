@@ -6,7 +6,7 @@
 
 ## 📋 Übersicht
 
-**SeggiMeter** ermöglicht es Moderatoren (Admins), interaktive Fragen als „Lobbies“ zu erstellen, und Teilnehmern, in Echtzeit bis zu 3 Begriffe zu einer Frage einzureichen. Die Begriffe werden live als dynamische Wortwolke visualisiert – je öfter ein Begriff genannt wird, desto prominenter und größer wird er dargestellt.
+**SeggiMeter** ermöglicht es Moderatoren (Admins), interaktive Fragen als „Lobbies“ zu erstellen, und Teilnehmern, in Echtzeit bis zu 3 Begriffe zu einer Frage einzureichen. Die Begriffe werden live als dynamische Wortwolke visualisiert - je öfter ein Begriff genannt wird, desto prominenter und größer wird er dargestellt.
 
 ---
 
@@ -28,11 +28,11 @@ Die Anwendung ist danach unter [http://localhost:3000](http://localhost:3000) er
 ### 3. Vorkonfigurierte Accounts (via Seed-Daten)
 * **Administrator:**
   * Benutzername: `admin`
-  * Passwort: `admin123`
+  * Passwort: `admin`
 * **Standard-Benutzer:**
   * Benutzername: `damian`
-  * Passwort: `password123`
-* **Auto-Registrierung:** Beliebiger neuer Benutzername + Passwort bei `/login` eingeben – der Account wird bei Klick auf `Enter` automatisch neu angelegt (`admin: false`).
+  * Passwort: `damian`
+* **Auto-Registrierung:** Beliebiger neuer Benutzername + Passwort bei `/login` eingeben - der Account wird bei Klick auf `Enter` automatisch neu angelegt (`admin: false`).
 
 ---
 

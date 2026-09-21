@@ -1,13 +1,10 @@
 <div class="lobby-live-page">
-  <header class="top-nav live-nav">
+  <header class="live-nav">
     <div class="nav-left">
-      <%= link_to "leave", lobbies_path, class: "btn btn-outline-secondary btn-leave" %>
-    </div>
-    <div class="nav-center">
-      <span class="live-pill">● LIVE WORD CLOUD</span>
+      <%= link_to "←", lobbies_path, class: "btn-back", title: "Zurück" %>
     </div>
     <div class="nav-right">
-      <span class="user-pill">👤 <%= current_user.name %></span>
+      <span class="user-pill"><%= icon(:user, size: 14) %> <%= current_user.name %></span>
     </div>
   </header>
 

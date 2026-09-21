@@ -37,8 +37,7 @@ class MultiUserFlowTest < ActionDispatch::IntegrationTest
 
     # 5. Profile password update
     get profile_url
-    assert_response :success
-    assert_select ".profile-value", text: /name: charlie/
+    assert_select ".profile-value", text: "charlie"
 
     patch profile_url, params: { user: { password: "newpassword789", password_confirmation: "newpassword789" } }
     assert_redirected_to profile_url

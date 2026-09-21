@@ -2,29 +2,28 @@
   <div class="card auth-card">
     <div class="auth-header">
       <h1 class="auth-title">SeggiMeter</h1>
-      <p class="auth-subtitle">Live Word Cloud & Interactive Polling</p>
+      <p class="auth-subtitle">Live Word Cloud &amp; Interactive Polling</p>
     </div>
 
     <%= form_with url: login_path, method: :post, local: true, class: "auth-form" do |f| %>
       <div class="form-group">
         <%= f.label :name, "Benutzername", class: "form-label" %>
-        <%= f.text_field :name, class: "form-control", placeholder: "name", required: true, autofocus: true, autocomplete: "username" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "Dein Benutzername", required: true, autofocus: true, autocomplete: "username" %>
       </div>
 
       <div class="form-group">
         <%= f.label :password, "Passwort", class: "form-label" %>
-        <%= f.password_field :password, class: "form-control", placeholder: "password", required: true, autocomplete: "current-password" %>
+        <%= f.password_field :password, class: "form-control", placeholder: "••••••••", required: true, autocomplete: "current-password" %>
       </div>
 
       <div class="form-actions">
-        <%= f.submit "Enter", class: "btn btn-primary btn-block" %>
+        <%= f.submit "Anmelden →", class: "btn btn-primary btn-block" %>
       </div>
     <% end %>
 
     <div class="auth-footer">
-      <small class="text-muted">
-        ℹ️ <strong>Auto-Registrierung:</strong> Wenn dein Benutzername noch nicht existiert, wird dein Account bei Klick auf "Enter" automatisch neu erstellt!
-      </small>
+      <strong>Auto-Registrierung:</strong> Wenn dein Benutzername noch nicht existiert,
+      wird dein Account automatisch erstellt.
     </div>
   </div>
 </div>

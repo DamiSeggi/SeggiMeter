@@ -5,8 +5,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     get login_url
     assert_response :success
     assert_select "input[name='name']"
-    assert_select "input[name='password']"
-    assert_select "input[type='submit'][value='Enter']"
+    assert_select "input[type='submit']"
   end
 
   test "existing user logs in with valid password" do

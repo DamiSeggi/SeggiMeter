@@ -28,10 +28,6 @@ words_user1.each do |word|
   Submission.find_or_create_by!(user: user1, lobby: lobby1, word: word)
 end
 
-words_user2.each do |word|
-  Submission.find_or_create_by!(user: user2, lobby: lobby1, word: word)
-end
-
 words_admin.each do |word|
   Submission.find_or_create_by!(user: admin, lobby: lobby1, word: word)
 end

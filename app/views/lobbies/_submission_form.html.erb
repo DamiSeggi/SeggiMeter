@@ -6,11 +6,11 @@
 
   <% if local_assigns[:notice].present? %>
     <div class="feedback-msg feedback-success">
-      ✓ <%= notice %>
+      <%= icon(:check, size: 14, stroke_width: 2.5) %> <%= notice %>
     </div>
   <% elsif local_assigns[:alert].present? %>
     <div class="feedback-msg feedback-error">
-      ⚠️ <%= alert %>
+      <%= icon(:alert, size: 14, stroke_width: 2) %> <%= alert %>
     </div>
   <% end %>
 
@@ -18,7 +18,7 @@
     <div class="input-with-counter">
       <%= f.text_field :word,
           class: "form-control word-input",
-          placeholder: can_submit ? "Wort eingeben..." : "Limit erreicht (3/3 Wörter)",
+          placeholder: can_submit ? "Wort eingeben …" : "Limit erreicht (3/3)",
           disabled: !can_submit,
           required: can_submit,
           autofocus: can_submit,
@@ -35,7 +35,7 @@
 
   <% unless can_submit %>
     <div class="limit-note">
-      Du hast bereits 3 Wörter für diese Frage abgegeben.
+      Du hast bereits alle 3 Wörter für diese Frage abgegeben.
     </div>
   <% end %>
 </div>

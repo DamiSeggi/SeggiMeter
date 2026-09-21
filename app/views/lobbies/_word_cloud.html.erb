@@ -2,38 +2,61 @@
   <% frequencies = lobby.word_frequencies %>
   <% if frequencies.empty? %>
     <div class="word-cloud-empty">
-      <div class="empty-icon">☁️</div>
-      <p class="empty-title">Die Wortwolke ist noch leer.</p>
-      <p class="empty-desc">Sei der Erste und reiche bis zu 3 Wörter über das Eingabefeld unten ein!</p>
+      <span class="empty-icon"><%= icon(:cloud, size: 48, stroke_width: 1.5) %></span>
+      <p class="empty-title">Noch keine Wörter vorhanden.</p>
+      <p class="empty-desc">Sei der Erste - reiche bis zu 3 Wörter unten ein!</p>
     </div>
   <% else %>
     <%
-      counts = frequencies.values
+      # Sort so most frequent word is placed at center, others radiating outwards
+      sorted_freqs = frequencies.sort_by { |word, count| -count }
+      counts = sorted_freqs.map(&:last)
       min_count = counts.min
       max_count = counts.max
+      n_words = sorted_freqs.length
+      max_r = Math.sqrt([n_words - 1 + 0.6, 1.0].max)
+      scale_x = [38.0 / max_r, 24.0].min
+      scale_y = [34.0 / max_r, 20.0].min
+
       colors = [
         "#2563eb", "#7c3aed", "#db2777", "#059669", "#d97706",
         "#dc2626", "#0891b2", "#4f46e5", "#0284c7", "#16a34a",
         "#9333ea", "#c026d3", "#ea580c"
       ]
     %>
-    <div class="word-cloud-grid">
-      <% frequencies.each do |word, count| %>
+    <div class="word-cloud-grid word-cloud-canvas">
+      <% sorted_freqs.each_with_index do |(word, count), idx| %>
         <%
           color = colors[word.bytes.sum % colors.length]
           font_size = if max_count == min_count
-            1.7
+            2.3
           else
             ratio = (count - min_count).to_f / (max_count - min_count)
-            (1.2 + (ratio * 2.3)).round(2)
+            (1.3 + (ratio * 2.5)).round(2)
           end
           is_dominant = count == max_count && max_count > 1
+          weight = is_dominant ? 800 : (font_size > 2.2 ? 700 : 600)
+
+          # 2D organic cloud positioning
+          if idx == 0
+            pos_x = 50.0
+            pos_y = 50.0
+            rot = 0
+          else
+            angle = idx * 2.39996323 # golden angle spiral
+            r = Math.sqrt(idx + 0.4)
+            jitter_x = (Math.sin(idx * 3.7 + word.bytes.sum) * 3.5).round(1)
+            jitter_y = (Math.cos(idx * 3.7 + word.bytes.sum) * 3.5).round(1)
+            pos_x = (50.0 + (scale_x * r * Math.cos(angle)) + jitter_x).clamp(12.0, 88.0).round(1)
+            pos_y = (50.0 + (scale_y * r * Math.sin(angle)) + jitter_y).clamp(12.0, 88.0).round(1)
+            rotations = [-4, -2, 0, 2, 4, -3, 3]
+            rot = rotations[(word.bytes.sum + idx) % rotations.length]
+          end
         %>
-        <span class="word-tag <%= 'dominant' if is_dominant %>" 
-              style="font-size: <%= font_size %>rem; color: <%= color %>;"
+        <span class="word-tag <%= 'dominant' if is_dominant %>"
+              style="left: <%= pos_x %>%; top: <%= pos_y %>%; font-size: <%= font_size %>rem; color: <%= color %>; font-weight: <%= weight %>; transform: translate(-50%, -50%) rotate(<%= rot %>deg);"
               title="<%= count %> <%= count == 1 ? 'Nennung' : 'Nennungen' %>">
-          <span class="word-text"><%= word %></span>
-          <span class="word-badge"><%= count %></span>
+          <span class="word-text"><%= word %></span><span class="word-badge"><%= count %></span>
         </span>
       <% end %>
     </div>

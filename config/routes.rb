@@ -21,12 +21,8 @@ Rails.application.routes.draw do
   # User Profile
   resource :profile, only: [:show, :update]
 
-  # Admin Panel (manually accessed via /admin/users)
-  namespace :admin do
-    resources :users, only: [:index, :destroy] do
-      member do
-        patch :toggle_admin
-      end
-    end
-  end
+  # Admin Panel (manually accessed via /admin)
+  get  "admin",                       to: "admin/users#index",        as: :admin_users
+  delete "admin/:id",                 to: "admin/users#destroy",      as: :admin_user
+  patch  "admin/:id/toggle_admin",    to: "admin/users#toggle_admin", as: :toggle_admin_admin_user
 end

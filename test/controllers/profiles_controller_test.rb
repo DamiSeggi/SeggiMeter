@@ -12,7 +12,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
 
     get profile_url
     assert_response :success
-    assert_select ".profile-value", text: /name: #{user.name}/
+    assert_select ".profile-value", text: user.name
     assert_select "input[name='user[password]']"
   end
 
