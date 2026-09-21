@@ -1,0 +1,97 @@
+<div class="page-container">
+  <div class="card">
+    <div class="card-header">
+      <div class="header-with-back">
+        <%= link_to "< Zurück zu Lobbies", lobbies_path, class: "btn-back" %>
+        <h2>Admin-Benutzerverwaltung</h2>
+      </div>
+      <p class="text-muted">
+        Geschützter Administrationsbereich (nur über direkte URL-Eingabe <code>/admin/users</code> erreichbar).
+      </p>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table admin-users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Benutzername</th>
+              <th>Rolle</th>
+              <th>Erstellt am</th>
+              <th>Submissions</th>
+              <th>Rollenverwaltung</th>
+              <th>Aktionen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+              <tr class="<%= 'current-user-row' if user == current_user %>">
+                <td><%= user.id %></td>
+                <td>
+                  <strong><%= user.name %></strong>
+                  <% if user == current_user %>
+                    <span class="badge badge-info">(Du)</span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if user.admin? %>
+                    <span class="badge badge-admin">Admin</span>
+                  <% else %>
+                    <span class="badge badge-user">Benutzer</span>
+                  <% end %>
+                </td>
+                <td><%= user.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+                <td><%= user.submissions.count %></td>
+                <td>
+                  <% if user == current_user %>
+                    <span class="text-muted">–</span>
+                  <% elsif user.admin? %>
+                    <%= button_to "remove Admin", toggle_admin_admin_user_path(user), method: :patch, class: "btn btn-danger btn-sm", data: { turbo_confirm: "Admin-Rechte für #{user.name} wirklich entfernen?" } %>
+                  <% else %>
+                    <%= button_to "add Admin", toggle_admin_admin_user_path(user), method: :patch, class: "btn btn-success btn-sm" %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if user == current_user %>
+                    <span class="text-muted">–</span>
+                  <% else %>
+                    <%= button_to "delete", admin_user_path(user), method: :delete, class: "btn btn-danger btn-sm", data: { turbo_confirm: "Benutzer '#{user.name}' und alle zugehörigen Daten wirklich löschen?" } %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <div class="card-header">
+      <h3>Aktivitätsprotokoll (Activity Logs)</h3>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table activity-log-table">
+          <thead>
+            <tr>
+              <th>Zeitpunkt</th>
+              <th>Benutzer</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% ActivityLog.recent.limit(20).each do |log| %>
+              <tr>
+                <td><%= log.created_at.strftime("%d.%m.%Y %H:%M:%S") %></td>
+                <td><%= log.user&.name || "Gelöschter Benutzer" %></td>
+                <td><code><%= log.action %></code></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

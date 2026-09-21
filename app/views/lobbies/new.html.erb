@@ -1,0 +1,34 @@
+<div class="page-container narrow-container">
+  <div class="card">
+    <div class="card-header">
+      <div class="header-with-back">
+        <%= link_to "< Zurück", lobbies_path, class: "btn-back" %>
+        <h2>Create Question</h2>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <%= form_with model: @lobby, local: true do |f| %>
+        <% if @lobby.errors.any? %>
+          <div class="form-errors">
+            <ul>
+              <% @lobby.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= f.label :title, "Frage / Thema", class: "form-label" %>
+          <%= f.text_field :title, class: "form-control", placeholder: "z. B. Was fällt dir zu Ruby on Rails ein?", required: true, autofocus: true %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Frage erstellen", class: "btn btn-primary" %>
+          <%= link_to "Abbrechen", lobbies_path, class: "btn btn-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

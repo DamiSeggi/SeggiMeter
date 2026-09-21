@@ -1,0 +1,7 @@
+one:
+  user: admin_user
+  action: "lobby_created"
+
+two:
+  user: regular_user
+  action: "user_logged_in"

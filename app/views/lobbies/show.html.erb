@@ -1,0 +1,26 @@
+<div class="lobby-live-page">
+  <header class="top-nav live-nav">
+    <div class="nav-left">
+      <%= link_to "leave", lobbies_path, class: "btn btn-outline-secondary btn-leave" %>
+    </div>
+    <div class="nav-center">
+      <span class="live-pill">● LIVE WORD CLOUD</span>
+    </div>
+    <div class="nav-right">
+      <span class="user-pill">👤 <%= current_user.name %></span>
+    </div>
+  </header>
+
+  <main class="live-main-content">
+    <div class="live-header-box">
+      <%= render "lobbies/title", lobby: @lobby %>
+    </div>
+
+    <%= turbo_stream_from "lobby_#{@lobby.id}" %>
+    <%= render "lobbies/word_cloud", lobby: @lobby %>
+  </main>
+
+  <footer class="live-footer-bar">
+    <%= render "lobbies/submission_form", lobby: @lobby %>
+  </footer>
+</div>

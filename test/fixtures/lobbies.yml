@@ -1,0 +1,7 @@
+active_lobby:
+  title: "Welche Technologien begeistern dich am meisten?"
+  user: admin_user
+
+second_lobby:
+  title: "Was verbindest du mit modernem Web Development?"
+  user: admin_user

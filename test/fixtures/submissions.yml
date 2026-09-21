@@ -1,0 +1,9 @@
+one:
+  user: regular_user
+  lobby: active_lobby
+  word: "Ruby"
+
+two:
+  user: second_user
+  lobby: active_lobby
+  word: "Rails"

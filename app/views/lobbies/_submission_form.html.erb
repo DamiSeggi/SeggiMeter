@@ -1,0 +1,41 @@
+<div id="submission_area" class="submission-area">
+  <%
+    user_count = current_user ? current_user.submission_count_for(lobby) : 0
+    can_submit = user_count < 3
+  %>
+
+  <% if local_assigns[:notice].present? %>
+    <div class="feedback-msg feedback-success">
+      ✓ <%= notice %>
+    </div>
+  <% elsif local_assigns[:alert].present? %>
+    <div class="feedback-msg feedback-error">
+      ⚠️ <%= alert %>
+    </div>
+  <% end %>
+
+  <%= form_with url: lobby_submissions_path(lobby), method: :post, class: "submission-form" do |f| %>
+    <div class="input-with-counter">
+      <%= f.text_field :word,
+          class: "form-control word-input",
+          placeholder: can_submit ? "Wort eingeben..." : "Limit erreicht (3/3 Wörter)",
+          disabled: !can_submit,
+          required: can_submit,
+          autofocus: can_submit,
+          maxlength: 30,
+          autocomplete: "off" %>
+
+      <%= f.submit "Enter", class: "btn btn-primary btn-submit-word", disabled: !can_submit %>
+
+      <div class="submission-counter-badge <%= 'counter-limit' if !can_submit %>" title="Eingereichte Wörter für diese Frage">
+        <%= user_count %>/3
+      </div>
+    </div>
+  <% end %>
+
+  <% unless can_submit %>
+    <div class="limit-note">
+      Du hast bereits 3 Wörter für diese Frage abgegeben.
+    </div>
+  <% end %>
+</div>

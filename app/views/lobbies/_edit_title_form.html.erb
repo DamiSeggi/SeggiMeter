@@ -1,0 +1,14 @@
+<div id="lobby_header" class="lobby-live-header">
+  <div class="lobby-title-edit-form">
+    <%= form_with model: lobby, url: lobby_path(lobby), method: :patch, class: "edit-title-form" do |f| %>
+      <div class="input-group">
+        <%= f.text_field :title, value: lobby.title, class: "form-control edit-title-input", autofocus: true, required: true %>
+        <%= f.submit "Speichern", class: "btn btn-success" %>
+        <%= button_to "Abbrechen", unlock_lobby_path(lobby), method: :post, class: "btn btn-secondary", form: { style: "display:inline;" } %>
+      </div>
+      <div class="lock-notice">
+        <small class="text-muted">🔒 Frage ist für andere Admins durch DB-Lock gesperrt, während du bearbeitest.</small>
+      </div>
+    <% end %>
+  </div>
+</div>

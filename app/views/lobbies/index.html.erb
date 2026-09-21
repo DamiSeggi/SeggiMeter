@@ -1,0 +1,55 @@
+<div class="page-container">
+  <header class="top-nav">
+    <div class="nav-brand">
+      <h2>SeggiMeter</h2>
+    </div>
+
+    <div class="nav-user-actions">
+      <span class="logged-in-user">Angemeldet als: <strong><%= current_user.name %></strong> <%= "(Admin)" if current_user.admin? %></span>
+      <%= link_to profile_path, class: "icon-btn profile-icon-btn", title: "Benutzerprofil" do %>
+        <span class="profile-icon">👤</span> Profile
+      <% end %>
+      <%= button_to "logout", logout_path, method: :delete, class: "btn btn-outline-danger" %>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="content-header">
+      <h3>Aktive Fragen & Lobbies</h3>
+    </div>
+
+    <% if @lobbies.empty? %>
+      <div class="empty-state">
+        <p>Noch keine Fragen vorhanden.</p>
+        <% if current_user.admin? %>
+          <p>Klicke unten rechts auf das <strong>+</strong>, um eine neue Frage zu erstellen.</p>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="lobbies-grid">
+        <% @lobbies.each do |lobby| %>
+          <div class="card lobby-card">
+            <div class="lobby-card-body">
+              <h4 class="lobby-title"><%= lobby.title %></h4>
+              <div class="lobby-meta">
+                <span class="meta-item">✍️ <%= lobby.user.name %></span>
+                <span class="meta-item">💬 <%= lobby.submissions.count %> Wörter</span>
+              </div>
+            </div>
+            <div class="lobby-card-footer">
+              <%= link_to "Enter", lobby_path(lobby), class: "btn btn-primary btn-block" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </main>
+
+  <% if current_user.admin? %>
+    <div class="floating-admin-action">
+      <%= link_to new_lobby_path, class: "floating-add-btn", title: "Create Question" do %>
+        +
+      <% end %>
+    </div>
+  <% end %>
+</div>
