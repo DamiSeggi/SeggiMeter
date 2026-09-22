@@ -1,113 +1,61 @@
 # SeggiMeter
 
-> Interaktive Live-Word-Cloud-Anwendung für das **Modul 223 („Multi-User-Applikationen objektorientiert realisieren“)**.
+Webanwendung zur Echtzeit-Visualisierung von Wortwolken (Live Word Clouds) für das Modul 223 (*Multi-User-Applikationen objektorientiert realisieren*).
 
----
+## Funktionsübersicht
 
-## 📋 Übersicht
+SeggiMeter ermöglicht es Administratoren, Lobbies mit Fragestellungen zu erstellen, in denen Nutzer in Echtzeit Begriffe einreichen können. Die Abgaben werden dynamisch als Wortwolke aggregiert und dargestellt.
 
-**SeggiMeter** ermöglicht es Moderatoren (Admins), interaktive Fragen als „Lobbies“ zu erstellen, und Teilnehmern, in Echtzeit bis zu 3 Begriffe zu einer Frage einzureichen. Die Begriffe werden live als dynamische Wortwolke visualisiert - je öfter ein Begriff genannt wird, desto prominenter und größer wird er dargestellt.
+## Installation und Betrieb
 
----
+*Voraussetzung: Ruby und Bundler sind auf dem System installiert*
 
-## 🚀 Schnellstart (Getting Started)
+1. **Abhängigkeiten installieren:**
 
-### 1. Abhängigkeiten & Setup
-```bash
-bundle install
-bin/rails db:migrate
-bin/rails db:seed
-```
+   ```bash
+   bundle install
+   ```
 
-### 2. Server starten
-```bash
-bin/rails server
-```
-Die Anwendung ist danach unter [http://localhost:3000](http://localhost:3000) erreichbar.
+2. **Datenbank aufsetzen & Seeds einspielen:**
 
-### 3. Vorkonfigurierte Accounts (via Seed-Daten)
-* **Administrator:**
-  * Benutzername: `admin`
-  * Passwort: `admin`
-* **Standard-Benutzer:**
-  * Benutzername: `damian`
-  * Passwort: `damian`
-* **Auto-Registrierung:** Beliebiger neuer Benutzername + Passwort bei `/login` eingeben - der Account wird bei Klick auf `Enter` automatisch neu angelegt (`admin: false`).
+   ```bash
+   bin/rails db:setup
+   ```
 
----
+   *(Erstellt die Demo-Accounts `admin` / `admin` sowie `damian` / `damian`)*
 
-## 🏛️ Architektur & Technische Kernkonzepte
+3. **Server starten:**
 
-### 1. Authentifizierung & Rollenberechtigung
-* **Auto-Registration:** Beim Anmeldeformular (`/login`) prüft das System, ob der Benutzername existiert. Wenn nicht, wird der Account automatisch mit `admin: false` erstellt und die Session initialisiert.
-* **Passwort-Sicherheit:** Verwendung von ActiveModel `has_secure_password` mit `bcrypt`.
-* **Erster Admin:** Kann über `bin/rails console` (`User.find_by(name: "...").update!(admin: true)`) oder via Seeds gesetzt werden.
-* **Admin-Panel (`/admin/users`):** Nur für Admins zugänglich. Kein Navigationslink im UI (Aufruf via direkter URL-Eingabe). Ermöglicht das Vergeben/Entziehen von Admin-Rechten sowie das Löschen von Benutzern. Selbstsperrung und Selbstlöschung sind gesperrt.
+   ```bash
+   bin/rails server
+   ```
 
-### 2. Transaktionen & 3-Wörter-Limit
-* Die Wortabgabe erfolgt atomar innerhalb einer Datenbanktransaktion (`ActiveRecord::Base.transaction`).
-* Es wird serverseitig garantiert, dass ein Benutzer maximal 3 Wörter pro Frage einreichen kann:
-```ruby
-ActiveRecord::Base.transaction do
-  raise "Limit erreicht" if user.submissions.where(lobby_id: lobby.id).count >= 3
-  lobby.submissions.create!(user: user, word: params[:word])
-  ActivityLog.create!(user: user, action: "submitted_word")
-end
-```
+4. **Aufruf im Browser:** [http://localhost:3000](http://localhost:3000)
 
-### 3. Echtzeit-Word-Cloud (Hotwire / Turbo Streams)
-* Bei jeder neuen Einreichung wird automatisch ein Turbo Stream an den Kanal `lobby_#{lobby.id}` gesendet (`after_create_commit` im `Submission`-Model).
-* Alle verbundenen Clients sehen die Wortwolke und die aktualisierten Häufigkeiten ohne Seiten-Reload in Echtzeit.
+> **Hinweis:** Bei der Eingabe eines nicht existierenden Benutzernamens auf der Login-Seite (`/login`) wird automatisch ein neues Standard-Benutzerkonto angelegt.
 
-### 4. Pessimistic DB Locking
-* Beim Bearbeiten des Fragentitels durch einen Administrator wird der Datensatz pessimistisch auf DB-Ebene gesperrt (`lobby.with_lock`), um gleichzeitige Schreibzugriffe durch andere Admins zu verhindern.
-* Zusätzlich wird `locked_by_id` gepflegt, um anderen Nutzern visuell anzuzeigen, wenn eine Frage gerade bearbeitet wird.
+## Architektur & Kernkonzepte
 
-### 5. Aktivitätsprotokoll (`ActivityLog`)
-* Alle wesentlichen Benutzeraktionen werden persistent im `ActivityLog` erfasst:
-  * `user_registered`, `user_logged_in`, `user_logged_out`
-  * `lobby_created`, `lobby_updated`, `lobby_deleted`
-  * `submitted_word`
-  * `password_changed`
-  * `admin_promoted`, `admin_demoted`, `user_deleted`
+| Konzept | Beschreibung |
+|---|---|
+| **Authentifizierung & Rechte** | Passwort-Sicherheit mit `bcrypt`. Geschütztes Admin-Panel (`/admin`) mit Schutz vor Selbstlöschung und Rechteentzug. |
+| **Transaktionssicherheit** | Atomare Speicherung von Wortabgabe und ActivityLog (ActiveRecord::Base.transaction) mit automatischem Rollback bei Fehlern. |
+| **Echtzeit-Aktualisierung** | Synchronisation der Wortwolken via Hotwire (Turbo Streams / WebSockets) ohne Re-Loads. |
+| **Pessimistic Locking** | Schutz vor zeitgleichen Schreibzugriffen beim Bearbeiten von Lobbies mittels `lobby.with_lock`. |
+| **Audit Trail** | Protokollierung aller relevanten System- und Benutzeraktionen im `ActivityLog`. |
 
----
+## Testabdeckung
 
-## 🗄️ Datenmodell (ERM)
-
-```
-       1 ┌──────────────┐ 0..*
- ┌───────┤    users     ├──────────────┐
- │       └──────┬───────┘              │
- │              │ 1                    │ 1
- │              │                      │
- │ 0..*         │ 0..*                 │ 0..*
- ▼              ▼                      ▼
-┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-│ activity_logs│   │   lobbies    │   │ submissions  │
-└──────────────┘   └──────┬───────┘   └──────────────┘
-                          │ 1
-                          │
-                          │ 0..*
-                          ▼
-                   ( submissions )
-```
-
----
-
-## 🧪 Testing
-
-Alle Tests gemäss Modul-223-Kriterienkatalog (Model-, Controller-, Integrations- und Transaktionstests) ausführen:
+Ausführen aller Unit-, Integration- und Transaktionstests:
 
 ```bash
 bin/rails test
 ```
 
-### Test-Umfang:
-* **Models:** Validierungen, Assoziationen, Methoden (`word_frequencies`, `can_submit_to?`, Locking).
-* **SessionsController:** Anmelden, Passwort-Prüfung, Auto-Registrierung, Abmelden.
-* **LobbiesController:** Autorisierung (Admin vs. User), Erstellen, DB-Locking beim Editieren.
-* **SubmissionsController:** Atomare Transaktion, 3-Wörter-Limit, Validierung von Leereingaben.
-* **ProfilesController:** Passwortänderung, Session-Prüfung.
-* **Admin::UsersController:** Rollenverwaltung (`add Admin`/`remove Admin`), Benutzerlöschung, Schutz vor Selbstlöschung/-demotierung.
-* **MultiUserFlowTest:** Vollständiger E2E-Ablauf von Registrierung über Wortabgaben bis hin zum Transaktions-Rollback.
+Deckt Models, Controller-Rechte, atomare Transaktionen (3-Wörter-Limit), DB-Locking sowie vollständige Multi-User-Abläufe ab.
+
+## Sonstige Infos
+
+- Weitere Infos / Doku in abgegebener Projektdokumentation
+- Github: https://github.com/DamiSeggi/SeggiMeter
+- Entwickler: Damian Segginger

@@ -9,3 +9,6 @@ ActiveRecord::Schema[7.1].define(version: 1) do
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 end
+
+Finished in 0.243850s, 168.1361 runs/s, 803.7728 assertions/s.
+41 runs, 196 assertions, 0 failures, 0 errors, 0 skips
