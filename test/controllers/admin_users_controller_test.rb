@@ -7,7 +7,7 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "regular non-admin user cannot access admin users" do
-    log_in_as(users(:regular_user))
+    log_in_as(users(:damian_user))
     get admin_users_url
 
     assert_redirected_to lobbies_url
@@ -26,7 +26,7 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
 
   test "admin can toggle admin status for another user" do
     admin = users(:admin_user)
-    target = users(:regular_user)
+    target = users(:damian_user)
     log_in_as(admin, password: "admin123")
 
     assert_not target.admin?
@@ -60,7 +60,7 @@ class AdminUsersControllerTest < ActionDispatch::IntegrationTest
 
   test "admin can delete another user" do
     admin = users(:admin_user)
-    target = users(:second_user)
+    target = users(:nico_user)
     log_in_as(admin, password: "admin123")
 
     assert_difference "User.count", -1 do

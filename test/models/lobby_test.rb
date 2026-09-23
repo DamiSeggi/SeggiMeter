@@ -15,7 +15,7 @@ class LobbyTest < ActiveSupport::TestCase
 
   test "word_frequencies aggregates and counts submissions correctly" do
     lobby = lobbies(:active_lobby)
-    user = users(:second_user)
+    user = users(:damian_user)
 
     Submission.create!(user: user, lobby: lobby, word: "Ruby")
     Submission.create!(user: user, lobby: lobby, word: "ruby")
@@ -27,7 +27,7 @@ class LobbyTest < ActiveSupport::TestCase
   test "pessimistic locking behavior" do
     lobby = lobbies(:active_lobby)
     admin1 = users(:admin_user)
-    user = users(:regular_user)
+    user = users(:damian_user)
 
     assert lobby.lock_for!(admin1)
     assert lobby.locked?

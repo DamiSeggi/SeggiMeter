@@ -3,12 +3,12 @@ admin_user:
   password_digest: <%= BCrypt::Password.create("admin123", cost: 4) %>
   admin: true
 
-regular_user:
+damian_user:
   name: "damian"
   password_digest: <%= BCrypt::Password.create("password123", cost: 4) %>
   admin: false
 
-second_user:
-  name: "anna"
-  password_digest: <%= BCrypt::Password.create("password123", cost: 4) %>
+nico_user:
+  name: "nico"
+  password_digest: <%= BCrypt::Password.create("password1234", cost: 4) %>
   admin: false

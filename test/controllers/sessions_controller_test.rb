@@ -9,7 +9,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "existing user logs in with valid password" do
-    user = users(:regular_user)
+    user = users(:damian_user)
 
     assert_difference "ActivityLog.count", 1 do
       post login_url, params: { name: user.name, password: "password123" }
@@ -21,7 +21,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "existing user fails to log in with invalid password" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     post login_url, params: { name: user.name, password: "wrongpassword" }
 
     assert_response :unprocessable_entity
@@ -38,7 +38,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "user can log out" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     log_in_as(user)
 
     delete logout_url

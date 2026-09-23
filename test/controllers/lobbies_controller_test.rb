@@ -13,7 +13,7 @@ class LobbiesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "authenticated user can view lobbies index and show" do
-    log_in_as(users(:regular_user))
+    log_in_as(users(:damian_user))
 
     get lobbies_url
     assert_response :success
@@ -26,7 +26,7 @@ class LobbiesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "non-admin cannot access new lobby page or create lobby" do
-    log_in_as(users(:regular_user))
+    log_in_as(users(:damian_user))
 
     get new_lobby_url
     assert_redirected_to lobbies_url
@@ -70,14 +70,14 @@ class LobbiesControllerTest < ActionDispatch::IntegrationTest
 
   test "lock cannot be acquired if already locked by another user" do
     admin1 = users(:admin_user)
-    regular = users(:regular_user)
+    damian = users(:damian_user)
     lobby = lobbies(:active_lobby)
 
     # First lock by admin1
     lobby.lock_for!(admin1)
 
-    log_in_as(regular)
+    log_in_as(damian)
     post lock_lobby_url(lobby)
-    assert_redirected_to lobbies_url # regular user is not admin
+    assert_redirected_to lobbies_url # damian is not admin
   end
 end

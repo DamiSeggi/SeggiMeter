@@ -3,5 +3,5 @@ one:
   action: "lobby_created"
 
 two:
-  user: regular_user
+  user: damian_user
   action: "user_logged_in"

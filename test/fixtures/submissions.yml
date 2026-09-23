@@ -1,9 +1,19 @@
 one:
-  user: regular_user
+  user: damian_user
   lobby: active_lobby
   word: "Ruby"
 
 two:
-  user: second_user
+  user: nico_user
   lobby: active_lobby
   word: "Rails"
+
+three:
+  user: nico_user
+  lobby: active_lobby
+  word: "Elixir"
+
+four:
+  user: nico_user
+  lobby: second_lobby
+  word: "Phoenix"

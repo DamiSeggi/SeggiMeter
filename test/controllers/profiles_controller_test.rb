@@ -7,7 +7,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "authenticated user can view profile" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     log_in_as(user)
 
     get profile_url
@@ -17,7 +17,7 @@ class ProfilesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "user can update password" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     log_in_as(user)
 
     assert_difference "ActivityLog.count", 1 do

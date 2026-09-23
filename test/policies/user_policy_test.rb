@@ -3,8 +3,8 @@ require "test_helper"
 class UserPolicyTest < ActiveSupport::TestCase
   setup do
     @admin = users(:admin_user)
-    @user = users(:regular_user)
-    @other_user = users(:second_user)
+    @user = users(:damian_user)
+    @other_user = users(:nico_user)
   end
 
   test "admin is authorized for index, show, edit, update, destroy and toggle_admin" do

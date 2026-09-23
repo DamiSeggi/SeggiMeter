@@ -56,7 +56,7 @@ class MultiUserFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "transaction rollback when error occurs in submission block" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     lobby = lobbies(:second_lobby)
 
     initial_submissions = Submission.count

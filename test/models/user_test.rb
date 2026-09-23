@@ -20,14 +20,14 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "name must be unique case-insensitively" do
-    existing = users(:regular_user)
+    existing = users(:damian_user)
     user = User.new(name: existing.name.upcase, password: "111111111111")
     assert_not user.valid?
     assert_includes user.errors[:name], "has already been taken"
   end
 
   test "can_submit_to? returns true when under limit and false when 3 submissions reached" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     lobby = lobbies(:active_lobby)
 
     # user already has 1 submission in fixtures

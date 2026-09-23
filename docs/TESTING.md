@@ -36,9 +36,9 @@ Die **Fixtures** bilden die Rollen und fachlichen Situationen ab (`test/fixtures
 
 | Fixture | Inhalt / Zweck |
 |---|---|
-| `users.yml` | `admin_user` (Admin-Rolle), `regular_user` (`damian`), `second_user` (`anna`) – deckt Rollen ab |
+| `users.yml` | `admin_user` (Admin-Rolle), `damian_user` (`damian`), `nico_user` (`nico`) – deckt Rollen ab |
 | `lobbies.yml` | `active_lobby`, `second_lobby` – Lobbies mit Fremdschlüssel auf den Ersteller |
-| `submissions.yml` | Bestehende Wort-Abgaben (u. a. Basis für das 3-Wörter-Limit-Test-Szenario) |
+| `submissions.yml` | Bestehende Wort-Abgaben (u. a. Basis für das 3-Wörter-Limit-Test-Szenario); `nico_user` hat Antworten auf beide Lobbies |
 | `activity_logs.yml` | Audit-Einträge für Feed-/Protokoll-Tests |
 
 ## Zuordnung der Tests zur geprüften Klasse

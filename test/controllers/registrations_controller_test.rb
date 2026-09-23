@@ -47,7 +47,7 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "registration fails when username is duplicate" do
-    existing = users(:regular_user)
+    existing = users(:damian_user)
     assert_no_difference "User.count" do
       post signup_url, params: {
         user: {

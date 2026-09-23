@@ -10,7 +10,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "user can submit word and it increments activity log" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     lobby = lobbies(:active_lobby)
     log_in_as(user)
 
@@ -25,7 +25,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "atomic transaction enforces 3 submissions limit" do
-    user = users(:second_user) # starts with 1 submission in fixtures
+    user = users(:damian_user) # starts with 1 submission in fixtures
     lobby = lobbies(:active_lobby)
     log_in_as(user)
 
@@ -51,7 +51,7 @@ class SubmissionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "submitting blank word is rejected" do
-    user = users(:regular_user)
+    user = users(:damian_user)
     lobby = lobbies(:active_lobby)
     log_in_as(user)
 

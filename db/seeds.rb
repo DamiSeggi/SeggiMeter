@@ -11,6 +11,11 @@ user1 = User.find_or_create_by!(name: "damian") do |u|
   u.admin = false
 end
 
+user2 = User.find_or_create_by!(name: "nico") do |u|
+  u.password = "password1234"
+  u.admin = false
+end
+
 lobby1 = Lobby.find_or_create_by!(title: "Which technologies inspire you the most?") do |l|
   l.user = admin
 end
@@ -19,24 +24,35 @@ lobby2 = Lobby.find_or_create_by!(title: "What comes to mind when you think of m
   l.user = admin
 end
 
-# Sample submissions for lobby1
-words_user1 = [ "Ruby", "Rails", "Hotwire" ]
-words_user2 = [ "Ruby", "Turbo", "Stimulus" ]
-words_admin = [ "Ruby", "Rails", "SQLite" ]
+submission_seeds = {
+  lobby1 => {
+    admin => [ "Ruby", "Rails", "SQLite" ],   
+    user1 => [ "Ruby", "Rails", "Hotwire" ],
+    user2 => [ "Ruby" ]
+  },
+  lobby2 => {
+    admin => [ "Turbo", "JavaScript", "REST" ], 
+    user1 => [ "Turbo", "JavaScript" ],
+    user2 => [ "Phoenix" ]
+  }
+}
 
-words_user1.each do |word|
-  Submission.find_or_create_by!(user: user1, lobby: lobby1, word: word)
-end
-
-words_admin.each do |word|
-  Submission.find_or_create_by!(user: admin, lobby: lobby1, word: word)
+submission_seeds.each do |lobby, user_words|
+  user_words.each do |user, words|
+    words.each do |word|
+      Submission.find_or_create_by!(user: user, lobby: lobby, word: word)
+    end
+  end
 end
 
 ActivityLog.find_or_create_by!(user: admin, action: "lobby_created")
 ActivityLog.find_or_create_by!(user: user1, action: "user_registered")
 ActivityLog.find_or_create_by!(user: user1, action: "submitted_word")
+ActivityLog.find_or_create_by!(user: user2, action: "user_registered")
+ActivityLog.find_or_create_by!(user: user2, action: "submitted_word")
 ActivityLog.find_or_create_by!(user: admin, action: "submitted_word")
 
 puts "Seed data successfully loaded!"
 puts "Admin User: 'admin' / 'password1234'"
 puts "Normal User: 'damian' / 'password1234'"
+puts "Normal User: 'nico' / 'password1234'"
