@@ -50,10 +50,10 @@ Ausführen aller Unit-, Integration- und Transaktionstests:
 bin/rails test
 ```
 
-Deckt Models, Controller-Rechte, atomare Transaktionen (3-Wörter-Limit), DB-Locking sowie vollständige Multi-User-Abläufe ab.
+Deckt Models, Controller-Rechte, atomare Transaktionen (3-Wörter-Limit), DB-Locking sowie vollständige Multi-User-Abläufe ab. Details & Tests-Nachweis: [`/docs/TESTING.md`](docs/TESTING.md)
 
 ## Sonstige Infos
 
-- Weitere Infos / Doku in abgegebener Projektdokumentation
+- Weitere Infos / Doku in abgegebener Projektdokumentation und unter `/docs`
 - Github: https://github.com/DamiSeggi/SeggiMeter
 - Entwickler: Damian Segginger
