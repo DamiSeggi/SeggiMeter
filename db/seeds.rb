@@ -1,13 +1,13 @@
 # Seeds for SeggiMeter
 
 admin = User.find_or_create_by!(name: "admin") do |u|
-  u.password = "admin"
+  u.password = "password1234"
   u.admin = true
 end
 admin.update!(admin: true) unless admin.admin?
 
 user1 = User.find_or_create_by!(name: "damian") do |u|
-  u.password = "damian"
+  u.password = "password1234"
   u.admin = false
 end
 
@@ -38,5 +38,5 @@ ActivityLog.find_or_create_by!(user: user1, action: "submitted_word")
 ActivityLog.find_or_create_by!(user: admin, action: "submitted_word")
 
 puts "Seed data successfully loaded!"
-puts "Admin User: 'admin' / 'admin'"
-puts "Normal User: 'damian' / 'damian'"
+puts "Admin User: 'admin' / 'password1234'"
+puts "Normal User: 'damian' / 'password1234'"

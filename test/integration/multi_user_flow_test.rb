@@ -2,8 +2,8 @@ require "test_helper"
 
 class MultiUserFlowTest < ActionDispatch::IntegrationTest
   test "end to end user flow: auto-registration, lobby interaction, word submission limit, and profile" do
-    # 1. Auto-registration on login
-    post login_url, params: { name: "charlie", password: "mypassword123" }
+    # 1. User registration
+    post signup_url, params: { user: { name: "charlie", password: "mypassword123", password_confirmation: "mypassword123" } }
     assert_redirected_to lobbies_url
     follow_redirect!
     assert_response :success

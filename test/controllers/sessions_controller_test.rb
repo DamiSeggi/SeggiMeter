@@ -26,22 +26,15 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
     assert_nil session[:user_id]
-    assert_match "Invalid password", flash[:alert]
+    assert_equal "Invalid username or password.", flash[:alert]
   end
 
-  test "non-existing user is auto-registered on login" do
-    assert_difference "User.count", 1 do
-      assert_difference "ActivityLog.count", 1 do
-        post login_url, params: { name: "brandnewuser", password: "securepassword" }
-      end
-    end
+  test "non-existing user fails to log in without leaking account existence" do
+    post login_url, params: { name: "nonexistentuser", password: "somepassword12" }
 
-    new_user = User.find_by(name: "brandnewuser")
-    assert_not_nil new_user
-    assert_not new_user.admin?
-    assert_equal new_user.id, session[:user_id]
-    assert_redirected_to lobbies_url
-    assert_equal "user_registered", ActivityLog.last.action
+    assert_response :unprocessable_entity
+    assert_nil session[:user_id]
+    assert_equal "Invalid username or password.", flash[:alert]
   end
 
   test "user can log out" do

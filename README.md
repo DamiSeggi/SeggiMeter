@@ -22,7 +22,7 @@ SeggiMeter ermöglicht es Administratoren, Lobbies mit Fragestellungen zu erstel
    bin/rails db:setup
    ```
 
-   *(Erstellt die Demo-Accounts `admin` / `admin` sowie `damian` / `damian`)*
+   *(Erstellt die Demo-Accounts `admin` / `password1234` sowie `damian` / `password1234`)*
 
 3. **Server starten:**
 

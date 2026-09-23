@@ -1,13 +1,16 @@
 module Admin
   class UsersController < ApplicationController
-    before_action :require_admin
+    before_action :require_login
     before_action :set_user, only: [ :destroy, :toggle_admin ]
 
     def index
+      authorize User
       @users = User.order(created_at: :asc)
     end
 
     def destroy
+      authorize @user
+
       if @user.id == current_user.id
         redirect_to admin_users_path, alert: "You cannot delete your own account."
         return
@@ -20,6 +23,8 @@ module Admin
     end
 
     def toggle_admin
+      authorize @user
+
       if @user.id == current_user.id && @user.admin?
         redirect_to admin_users_path, alert: "You cannot revoke your own admin rights."
         return

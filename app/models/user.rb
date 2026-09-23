@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
+  normalizes :name, with: ->(name) { name.strip.downcase }
 
   has_many :lobbies, dependent: :destroy
   has_many :submissions, dependent: :destroy
@@ -9,7 +10,7 @@ class User < ApplicationRecord
   validates :name, presence: true,
                    uniqueness: { case_sensitive: false },
                    length: { minimum: 2, maximum: 50 }
-  validates :password, length: { minimum: 4 }, allow_nil: true
+  validates :password, length: { minimum: 12 }, allow_nil: true
 
   def submissions_for(lobby)
     submissions.where(lobby_id: lobby.id)

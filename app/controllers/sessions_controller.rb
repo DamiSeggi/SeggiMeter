@@ -13,27 +13,15 @@ class SessionsController < ApplicationController
       return
     end
 
-    user = User.find_by("LOWER(name) = ?", name.downcase)
+    user = User.authenticate_by(name: name, password: password)
 
     if user
-      if user.authenticate(password)
-        session[:user_id] = user.id
-        ActivityLog.create!(user: user, action: "user_logged_in")
-        redirect_to lobbies_path, notice: "Welcome back, #{user.name}!"
-      else
-        flash.now[:alert] = "Invalid password for this user."
-        render :new, status: :unprocessable_entity
-      end
+      session[:user_id] = user.id
+      ActivityLog.create!(user: user, action: "user_logged_in")
+      redirect_to lobbies_path, notice: "Welcome back, #{user.name}!"
     else
-      user = User.new(name: name, password: password, admin: false)
-      if user.save
-        session[:user_id] = user.id
-        ActivityLog.create!(user: user, action: "user_registered")
-        redirect_to lobbies_path, notice: "Account successfully created! Welcome, #{user.name}."
-      else
-        flash.now[:alert] = user.errors.full_messages.to_sentence
-        render :new, status: :unprocessable_entity
-      end
+      flash.now[:alert] = "Invalid username or password."
+      render :new, status: :unprocessable_entity
     end
   end
 
