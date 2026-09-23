@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
+  include Pundit::Authorization
+
   allow_browser versions: :modern, unless: -> { Rails.env.test? }
   stale_when_importmap_changes
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   helper_method :current_user, :logged_in?, :admin?
 
@@ -33,5 +37,10 @@ class ApplicationController < ActionController::Base
       flash[:alert] = "Access denied. Only administrators have access to this area."
       redirect_to lobbies_path
     end
+  end
+
+  def user_not_authorized
+    flash[:alert] = "Access denied. You are not authorized to perform this action."
+    redirect_to(logged_in? ? lobbies_path : login_path)
   end
 end

@@ -16,7 +16,7 @@ class Submission < ApplicationRecord
 
   def submission_limit_per_lobby
     if user && lobby && user.submissions.where(lobby_id: lobby.id).count >= 3
-      errors.add(:base, "Maximum 3 words per question allowed")
+      errors.add(:base, "Maximum 3 words per lobby allowed")
     end
   end
 end

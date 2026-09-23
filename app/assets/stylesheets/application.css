@@ -7,10 +7,7 @@
 :root {
   --accent:          #18181b;          /* near-black for primary actions  */
   --accent-soft:     #3f3f46;          /* slightly lighter accent          */
-  --success:         #16a34a;
-  --success-hover:   #15803d;
   --danger:          #dc2626;
-  --danger-hover:    #b91c1c;
   --bg:              #fafafa;          /* very subtle off-white page bg    */
   --surface:         #ffffff;          /* card / panel surface             */
   --surface-2:       #f4f4f5;          /* slightly tinted surface          */
@@ -263,35 +260,7 @@ body {
 }
 .btn-secondary:hover { background-color: #e4e4e7; }
 
-/* Success */
-.btn-success {
-  background-color: var(--success);
-  color: #fff;
-  border-color: var(--success);
-}
-.btn-success:hover { background-color: var(--success-hover); }
-
-/* Danger */
-.btn-danger {
-  background-color: var(--danger);
-  color: #fff;
-  border-color: var(--danger);
-}
-.btn-danger:hover { background-color: var(--danger-hover); }
-
 /* Outline variants */
-.btn-outline-secondary {
-  background-color: transparent;
-  color: var(--text);
-  border-color: #d4d4d8;
-  font-weight: 500;
-}
-.btn-outline-secondary:hover {
-  background-color: var(--surface-2);
-  border-color: var(--accent);
-  color: var(--text);
-}
-
 .btn-outline-danger {
   background-color: transparent;
   color: var(--danger);
@@ -566,14 +535,13 @@ body {
   box-sizing: border-box;
 }
 
-.nav-left, .nav-right, .nav-center {
+.nav-left, .nav-right {
   display: flex;
   align-items: center;
   flex-shrink: 0;
   white-space: nowrap;
 }
 
-.nav-center { flex: 1; justify-content: center; }
 .nav-right  { justify-content: flex-end; }
 
 .user-pill {
@@ -585,9 +553,6 @@ body {
   font-weight: 500;
   white-space: nowrap;
 }
-
-.btn-leave { font-size: 0.8rem; }
-
 
 /* Live page main content area - fills viewport space without scrolling */
 .live-main-content {
@@ -605,7 +570,7 @@ body {
   min-height: 0;
 }
 
-/* Question / title block */
+/* Lobby / title block */
 .live-header-box {
   width: 100%;
   margin-bottom: 0.75rem;
@@ -1022,15 +987,11 @@ body {
    Utility Classes
    ============================================================ */
 .mt-4         { margin-top: 2rem; }
-.mb-3         { margin-bottom: 1rem; }
 .mb-4         { margin-bottom: 1.5rem; }
 .p-0          { padding: 0 !important; }
 .text-muted   { color: var(--text-muted); }
 .text-center  { text-align: center !important; }
-.text-right   { text-align: right !important; }
 .text-sm      { font-size: 0.8rem; }
-.font-semibold { font-weight: 600; }
-.font-medium  { font-weight: 500; }
 
 .user-cell {
   display: inline-flex;

@@ -46,10 +46,10 @@ class SubmissionsController < ApplicationController
           render turbo_stream: turbo_stream.replace(
             "submission_area",
             partial: "lobbies/submission_form",
-            locals: { lobby: @lobby, alert: "Limit reached: Maximum 3 words per question." }
+            locals: { lobby: @lobby, alert: "Limit reached: Maximum 3 words per lobby." }
           ), status: :unprocessable_entity
         end
-        format.html { redirect_to @lobby, alert: "Limit reached: Maximum 3 words per question." }
+        format.html { redirect_to @lobby, alert: "Limit reached: Maximum 3 words per lobby." }
       end
     rescue ActiveRecord::RecordInvalid => e
       respond_to do |format|

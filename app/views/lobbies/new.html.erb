@@ -3,7 +3,7 @@
     <div class="card-header">
       <div class="header-with-back">
         <%= link_to "←", lobbies_path, class: "btn-back", title: "Back" %>
-        <h2>Create New Question</h2>
+        <h2>Create New Lobby</h2>
       </div>
     </div>
 
@@ -20,12 +20,12 @@
         <% end %>
 
         <div class="form-group">
-          <%= f.label :title, "Question / Topic", class: "form-label" %>
+          <%= f.label :title, "Lobby / Topic", class: "form-label" %>
           <%= f.text_field :title, class: "form-control", placeholder: "e.g. What comes to mind when you think of Ruby on Rails?", required: true, autofocus: true %>
         </div>
 
         <div class="form-actions">
-          <%= f.submit "Create Question", class: "btn btn-primary" %>
+          <%= f.submit "Create Lobby", class: "btn btn-primary" %>
           <%= link_to "Cancel", lobbies_path, class: "btn btn-secondary" %>
         </div>
       <% end %>

@@ -3,13 +3,14 @@ Rails.application.routes.draw do
 
   root "lobbies#index"
 
-  # Authentication
+  # Authentication & Registration
   get "login", to: "sessions#new", as: :login
   post "login", to: "sessions#create"
   match "logout", to: "sessions#destroy", via: [ :get, :delete ], as: :logout
+  get "signup", to: "registrations#new", as: :signup
+  post "signup", to: "registrations#create"
 
-  # Lobbies / Questions
-  get "questions", to: "lobbies#index", as: :questions
+  # Lobbies
   resources :lobbies do
     member do
       post :lock
@@ -23,6 +24,6 @@ Rails.application.routes.draw do
 
   # Admin Panel (manually accessed via /admin)
   get "admin",                       to: "admin/users#index",        as: :admin_users
-  delete "admin/:id",                 to: "admin/users#destroy",      as: :admin_user
-  patch  "admin/:id/toggle_admin",    to: "admin/users#toggle_admin", as: :toggle_admin_admin_user
+  delete "admin/:id",                to: "admin/users#destroy",      as: :admin_user
+  patch  "admin/:id/toggle_admin",   to: "admin/users#toggle_admin", as: :toggle_admin_admin_user
 end

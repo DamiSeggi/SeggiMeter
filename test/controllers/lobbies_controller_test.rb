@@ -5,7 +5,7 @@ class LobbiesControllerTest < ActionDispatch::IntegrationTest
     get lobbies_url
     assert_redirected_to login_url
 
-    get questions_url
+    get lobbies_url
     assert_redirected_to login_url
 
     get lobby_url(lobbies(:active_lobby))

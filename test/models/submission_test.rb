@@ -21,6 +21,6 @@ class SubmissionTest < ActiveSupport::TestCase
 
     fourth = Submission.new(user: user, lobby: lobby, word: "Word4")
     assert_not fourth.valid?
-    assert_includes fourth.errors[:base], "Maximum 3 words per question allowed"
+    assert_includes fourth.errors[:base], "Maximum 3 words per lobby allowed"
   end
 end
