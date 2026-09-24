@@ -4,8 +4,6 @@ Dokumentation der geprüften Anforderungen aus der Testing-Aufgabe (Modul 223), 
 
 ## Testbefehl
 
-Die komplette Testsuite wird über das README dokumentiert und wie folgt ausgeführt:
-
 ```bash
 bin/rails test
 ```
