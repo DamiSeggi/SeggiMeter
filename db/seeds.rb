@@ -26,12 +26,12 @@ end
 
 submission_seeds = {
   lobby1 => {
-    admin => [ "Ruby", "Rails", "SQLite" ],   
+    admin => [ "Ruby", "Rails", "SQLite" ],
     user1 => [ "Ruby", "Rails", "Hotwire" ],
     user2 => [ "Ruby" ]
   },
   lobby2 => {
-    admin => [ "Turbo", "JavaScript", "REST" ], 
+    admin => [ "Turbo", "JavaScript", "REST" ],
     user1 => [ "Turbo", "JavaScript" ],
     user2 => [ "Phoenix" ]
   }
