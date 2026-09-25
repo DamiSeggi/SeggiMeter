@@ -11,7 +11,7 @@ bin/rails test
 **Aktuelles Ergebnis:**
 
 ```
-Finished in 0.231323s, 211.8250 runs/s, 1007.2496 assertions/s.
+Finished in 0.314799s, 155.6549 runs/s, 740.1548 assertions/s.
 49 runs, 233 assertions, 0 failures, 0 errors, 0 skips
 ```
 
